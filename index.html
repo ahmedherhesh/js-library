@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        p{
+            color:#000
+        }
+    </style>
+  </head>
+  <body>
+    <div id="res"></div>
+    <p id="p">test</p>
+    <p class="test">test</p>
+    <p class="test">test</p>
+    <p class="test">test</p>
+    <script src="library.js"></script>
+    <script>
+        $.select('#p').click(function(e){
+            $.select('.test').css({
+                'color' : 'red'
+            });
+        });
+    </script>
+  </body>
+</html>
