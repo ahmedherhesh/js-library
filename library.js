@@ -1,7 +1,8 @@
 let $ = {
     element: null,
     select: function (element) {
-        if (element.charAt(0) == "#") {
+        if (typeof element == 'object') {
+        } else if (element.charAt(0) == "#") {
             element = element.replace("#", "");
             element = document.getElementById(element);
         } else if (element.charAt(0) == ".") {
@@ -22,6 +23,15 @@ let $ = {
             this.element.style[property] = value;
         }
     },
+    eventAdd: function (event, def) {
+        if (typeof this.element.length != "undefined") {
+            for (let i = 0; i < this.element.length; i++) {
+                this.element[i][event] = def
+            }
+        } else {
+            this.element[event] = def
+        }
+    },
     css: function (style) {
         if (typeof style != "object" && typeof this.element.length == "undefined")
             return window.getComputedStyle(this.element, null).getPropertyValue(style);
@@ -29,9 +39,5 @@ let $ = {
             this.styleChange(Object.keys(style)[i], Object.values(style)[i]);
         }
     },
-    click : function(def){
-        this.element.onclick = function(e){
-            def(e);
-        }
-    }
+    on: function (event, def) { this.eventAdd('on' + event, def) },
 };
