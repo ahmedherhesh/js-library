@@ -39,10 +39,10 @@ let _ = {
     eventAdd: function (event, def) { //helper function
         if (typeof this.element.length != "undefined") {
             for (let i = 0; i < this.element.length; i++) {
-                this.element[i][event] = def
+                this.element[i]['on'+event] = def
             }
         } else {
-            this.element[event] = def
+            this.element['on'+event] = def
         }
     },
     css: function (style) {
@@ -66,5 +66,12 @@ let _ = {
             }
         }
     },
-    on: function (event, def) { this.eventAdd('on' + event, def) },
+    on: function (event, def) {
+        this.eventAdd(event, def);
+        return this;
+    },
+    hover: function(mouseenter,mouseleave){
+        this.on('mouseenter',mouseenter).on('mouseleave',mouseleave);
+        return this;
+    }
 };
