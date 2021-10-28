@@ -7,23 +7,23 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="res"></div>
-    <p id="p">test</p>
+    <p class="test">test</p>
     <p class="test">test</p>
     <p class="test">test</p>
     <p class="test">test</p>
     <script src="library.js"></script>
     <script>
-      // $.select(".test").click(function () {
-      //   $.select(this).css({
-      //     'color': "red",
-      //   });
-      // });
-      $.select(".test").on('click',function () {
-        $.select(this).css({
-          'color': "red",
+      _.select("p").css({ cursor: "pointer" });
+      _.select("p").on("click", function () {
+        _.select(this).css({
+          "background-color": "red",
+          color: "white",
+          display: "inline-block",
+          padding: "10px",
+          width: "100px",
+          transition: "1s all",
         });
-      })
+      });
     </script>
   </body>
 </html>
