@@ -14,7 +14,7 @@ let _ = {
         this.element = element;
         return this;
     },
-    styleChange: function (property, value) {
+    styleCreate: function (property, value) { //helper function
         if (typeof this.element.length != "undefined") {
             for (let i = 0; i < this.element.length; i++) {
                 this.element[i].style[property] = value;
@@ -23,7 +23,20 @@ let _ = {
             this.element.style[property] = value;
         }
     },
-    eventAdd: function (event, def) {
+    animateCreate : function(element,property,value,period){ //helper function
+        let increment = 0;
+        value = value.replace('px', '');
+        let interval = setInterval(function () {
+            if (increment > parseInt(value)) {
+                element.style[property] = value;
+                clearInterval(interval);
+                return;
+            }
+            element.style[property] = increment + 'px';
+            increment += 10;
+        }, period);
+    },
+    eventAdd: function (event, def) { //helper function
         if (typeof this.element.length != "undefined") {
             for (let i = 0; i < this.element.length; i++) {
                 this.element[i][event] = def
@@ -36,7 +49,7 @@ let _ = {
         if (typeof style != "object" && typeof this.element.length == "undefined")
             return window.getComputedStyle(this.element, null).getPropertyValue(style);
         for (let i = 0; i < Object.keys(style).length; i++) {
-            this.styleChange(Object.keys(style)[i], Object.values(style)[i]);
+            this.styleCreate(Object.keys(style)[i], Object.values(style)[i]);
         }
     },
     animate: function (style ,period) {
@@ -45,33 +58,11 @@ let _ = {
             let value = Object.values(style)[i];
             let element = this.element;
             if (typeof this.element.length != "undefined") {
-                //more than one element
                 for (let i = 0; i < this.element.length; i++) {
-                    let increment = 0;
-                    value = value.replace('px', '');
-                    let interval = setInterval(function () {
-                        if (increment > parseInt(value)) {
-                            element[i].style[property] = value;
-                            clearInterval(interval);
-                            return;
-                        }
-                        element[i].style[property] = increment + 'px';
-                        increment += 10;
-                    }, period);
+                    this.animateCreate(element[i],property,value,period);
                 }
             } else {
-                // one element
-                let increment = 0;
-                value = value.replace('px', '');
-                let interval = setInterval(function () {
-                    if (increment > parseInt(value)) {
-                        element.style[property] = value;
-                        clearInterval(interval);
-                        return;
-                    }
-                    element.style[property] = increment + 'px';
-                    increment += 10;
-                }, period);
+                this.animateCreate(element,property,value,period);
             }
         }
     },
