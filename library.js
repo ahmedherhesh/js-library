@@ -39,16 +39,39 @@ let _ = {
             this.styleChange(Object.keys(style)[i], Object.values(style)[i]);
         }
     },
-    animate: function (style) {
+    animate: function (style ,period) {
         for (let i = 0; i < Object.keys(style).length; i++) {
-            let property  = Object.keys(style)[i];
+            let property = Object.keys(style)[i];
             let value = Object.values(style)[i];
+            let element = this.element;
             if (typeof this.element.length != "undefined") {
+                //more than one element
                 for (let i = 0; i < this.element.length; i++) {
-                    this.element[i].style[property] = value;
+                    let increment = 0;
+                    value = value.replace('px', '');
+                    let interval = setInterval(function () {
+                        if (increment > parseInt(value)) {
+                            element[i].style[property] = value;
+                            clearInterval(interval);
+                            return;
+                        }
+                        element[i].style[property] = increment + 'px';
+                        increment += 10;
+                    }, period);
                 }
             } else {
-                this.element.style[property] = value;
+                // one element
+                let increment = 0;
+                value = value.replace('px', '');
+                let interval = setInterval(function () {
+                    if (increment > parseInt(value)) {
+                        element.style[property] = value;
+                        clearInterval(interval);
+                        return;
+                    }
+                    element.style[property] = increment + 'px';
+                    increment += 10;
+                }, period);
             }
         }
     },
